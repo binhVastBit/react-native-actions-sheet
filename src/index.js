@@ -61,6 +61,7 @@ export default class ActionSheet extends Component {
     this.opacityValue = new Animated.Value(0);
     this.customComponentHeight;
     this.prevScroll;
+    this.prevScrollPos;
     this.scrollAnimationEndValue;
     this.hasBounced;
     this.scrollViewRef = createRef();
@@ -352,6 +353,13 @@ export default class ActionSheet extends Component {
     } else {
       DeviceEventEmitter.emit("hasReachedTop", false);
     }
+    if (this.prevScrollPos && this.prevScrollPos < 50) {
+      if (offsetY < this.prevScrollPos) {
+        this._hideModal()
+        return
+      }
+    }
+    this.prevScrollPos = offsetY
   };
 
   _onRequestClose = () => {
